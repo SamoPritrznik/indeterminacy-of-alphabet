@@ -10,15 +10,31 @@ def fun(variable):
         return False
 
 def HX1(besedilo):
-    i = [26]
     l = 0
+    i = []
     for s in letters:
         pr = besedilo.count(s)/len(besedilo)
-        i[l] = pr * math.log2(pr)
-        l += 1
+        if(pr == 0):
+            continue
+        a = pr * math.log2(pr)
+        i.insert(l, a)
+        l = l + 1
 
     return sum(i) * (-1) 
         
+def HX2(besedilo):
+    n = 0
+    i = []
+    while(len(besedilo) > n):
+        if(n + 1 >= len(besedilo)): break
+        pr = besedilo.count(besedilo[n] + besedilo[n+1])/5
+        if(pr == 0):
+            continue
+        a = pr * math.log2(pr)
+        i.insert(n, a)
+        n = n + 1
+    
+    return sum(i) * (-1) - HX1(besedilo)
 
 def naloga1(besedilo, p):
     
@@ -53,15 +69,15 @@ def naloga1(besedilo, p):
     
 
     if(p == 0):
-        HX1(besede)
+        H = HX1(besede)
     elif(p == 1):
-        s
+        H = HX2(besede)
     elif(p == 2):
         s
 
-    H = None
+    print(H)
     return 1
 
 
 
-naloga1("AbB,a.bC",0)
+naloga1("AbB,a.bC",1)
