@@ -25,9 +25,14 @@ def HX1(besedilo):
 def HX2(besedilo):
     n = 0
     i = []
+    lit = []
     while(len(besedilo) > n):
         if(n + 1 >= len(besedilo)): break
-        pr = besedilo.count(besedilo[n] + besedilo[n+1])/5
+        if((besedilo[n]+besedilo[n+1]) in lit): 
+            n = n + 1
+            continue
+        lit.append(besedilo[n]+besedilo[n+1])
+        pr = besedilo.count(besedilo[n] + besedilo[n+1])/(len(besedilo)-1)
         if(pr == 0):
             continue
         a = pr * math.log2(pr)
@@ -35,6 +40,8 @@ def HX2(besedilo):
         n = n + 1
     
     return sum(i) * (-1) - HX1(besedilo)
+
+
 
 def naloga1(besedilo, p):
     
