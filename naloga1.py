@@ -1,4 +1,5 @@
 import math
+from pickle import FALSE, TRUE
 from sympy import S
 
 letters = ['a','b','c','d','e','f','g','h','i', 'j', 'k','l','m','n','o' ,'p','q','r','s','t','u','v','w','y','x','z']
@@ -22,7 +23,7 @@ def HX1(besedilo):
 
     return sum(i) * (-1) 
         
-def HX2(besedilo):
+def HX2(besedilo, bool):
     n = 0
     i = []
     lit = []
@@ -40,8 +41,26 @@ def HX2(besedilo):
         n = n + 1
     
     return sum(i) * (-1) - HX1(besedilo)
+    
 
-
+def HX3(besedilo):
+    n = 0
+    i = []
+    lit = []
+    while(len(besedilo) > n):
+        if(n + 2 >= len(besedilo)): break
+        if((besedilo[n]+besedilo[n+1]+besedilo[n+2]) in lit): 
+            n = n + 1
+            continue
+        lit.append(besedilo[n]+besedilo[n+1]+besedilo[n+2])
+        pr = besedilo.count(besedilo[n] + besedilo[n+1] + besedilo[n+2])/(len(besedilo)-2)
+        if(pr == 0):
+            continue
+        a = pr * math.log2(pr)
+        i.insert(n, a)
+        n = n + 1
+    
+    return sum(i) * (-1) - HX2(besedilo, 0)
 
 def naloga1(besedilo, p):
     
@@ -68,9 +87,8 @@ def naloga1(besedilo, p):
         stevila poznanih predhodnih znakov 'p'
     """
 
-
-
     filtered = filter(fun, list(str.lower(besedilo)))
+
     besede = "".join(filtered)
     
     
@@ -78,13 +96,8 @@ def naloga1(besedilo, p):
     if(p == 0):
         H = HX1(besede)
     elif(p == 1):
-        H = HX2(besede)
+        H = HX2(besede, 1)
     elif(p == 2):
-        s
+        H = HX3(besede)
 
-    print(H)
-    return 1
-
-
-
-naloga1("AbB,a.bC",1)
+    return round(H, 4)
